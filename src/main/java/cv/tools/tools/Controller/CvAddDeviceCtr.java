@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @ResponseBody
-@RequestMapping("/")   // 请求进来的大的路径
+@RequestMapping("/")   // 请求进来的大的路径啊
 public class CvAddDeviceCtr {
 
     @Autowired
