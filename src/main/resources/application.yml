@@ -1,0 +1,9 @@
+server:
+  port: 8888  #项目启动的端口号
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/Tools   #数据库的连接池
+    username: root # 数据库的用户名
+    password: 123456
+  main:
+    allow-bean-definition-overriding: true #数据库的密码
