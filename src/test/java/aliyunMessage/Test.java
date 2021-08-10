@@ -1,7 +1,7 @@
 package aliyunMessage;
 
 public class Test {
-    private static String code;
+    private static String code = "123456";
 
     public static void main(String[] args) {
         String tel = "15221320441";  //输入手机号
@@ -14,7 +14,7 @@ public class Test {
      * @param tel
      */
     public static void getVerificationCode(String tel) {
-        String templateParam = "{\"code\":\"" + code + "\"}";
+        String templateParam = "{\"code\":\"" + vcode() + "\"}";
 //        String templateParam = "";
         String result = ShortMessageUtil.getPhoneMsg(tel, ShortMessage.VerificationCode, templateParam);
         if (result != null && result.equals("OK")) {
@@ -37,7 +37,7 @@ public class Test {
                 int random = (int) (Math.random() * 10);
                 code = code.append(random);
             }
-//            return code.toString();
-            return null;
+            return code.toString();
+//            return null;
         }
 }

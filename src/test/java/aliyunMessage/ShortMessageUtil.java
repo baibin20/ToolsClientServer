@@ -78,6 +78,7 @@ public class ShortMessageUtil {
                 return sendSmsResponse.getMessage();
             }
         } catch (ClientException e) {
+//            System.out.println(e.getMessage() + "我");
 //            throw new ThirdPartException(e.getMessage());
             System.out.println("throw new ThirdPartException(e.getMessage());");
         }

@@ -12,9 +12,9 @@ public class ShortMessage {
     public final static String accessKeyId = "LTAIC5je1jIIrvtT";
     public final static String accessKeySecret = "ZBt4Egjl0m5nZ0cXRnJ334wwSmApvU";
     // 必填:短信签名-可在短信控制台中找到
-    public final static String SignName = "签名";  // 阿里云配置自己的短信签名填入
+    public final static String SignName = "养痘小达人";  // 阿里云配置自己的短信签名填入
     // 必填:短信模板-可在短信控制台中找到
     public final static String TemplateCode= "SMS_xxx";
 
-    public static String VerificationCode;
+    public static String VerificationCode =  "SMS_163530384";
 }
