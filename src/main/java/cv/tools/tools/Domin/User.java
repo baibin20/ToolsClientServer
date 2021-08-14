@@ -17,18 +17,17 @@ public class User implements Serializable {
     private Long User_id;
     private String User_name;
     private String User_password;
+    private String phone;
     private Date User_date_now;
     private Date user_date_old;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "User_id=" + User_id +
-                ", User_name='" + User_name + '\'' +
-                ", User_password='" + User_password + '\'' +
-                ", User_date_now=" + User_date_now +
-                ", user_date_old=" + user_date_old +
-                '}';
+    public User(Long user_id, String user_name, String user_password, String phone, Date user_date_now, Date user_date_old) {
+        User_id = user_id;
+        User_name = user_name;
+        User_password = user_password;
+        this.phone = phone;
+        User_date_now = user_date_now;
+        this.user_date_old = user_date_old;
     }
 
     public Long getUser_id() {
@@ -55,6 +54,14 @@ public class User implements Serializable {
         User_password = user_password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public Date getUser_date_now() {
         return User_date_now;
     }
@@ -63,19 +70,12 @@ public class User implements Serializable {
         User_date_now = user_date_now;
     }
 
-    public Date getuser_date_old() {
+    public Date getUser_date_old() {
         return user_date_old;
     }
 
-    public void setuser_date_old(Date user_date_old) {
-        user_date_old = user_date_old;
-    }
-
-    public User(String user_name, String user_password, Date user_date_now, Date user_date_old) {
-        User_name = user_name;
-        User_password = user_password;
-        User_date_now = user_date_now;
-        user_date_old = user_date_old;
+    public void setUser_date_old(Date user_date_old) {
+        this.user_date_old = user_date_old;
     }
 
     public User() {}
