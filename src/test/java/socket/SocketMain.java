@@ -1,29 +1,30 @@
 package socket;
 
-import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
+
+/**
+ * 同步线程
+ */
 public class SocketMain extends Thread {
-    public static void main(String[] args) throws IOException {
-
-        ServerSocket serverSocket = new ServerSocket();
-//        serverSocket.bind("",8081);
-
-    }
-
-    public void socket(){
+    public static void main(String[] args) throws Exception {
         try {
-
-        }catch (Exception ex){
-
+            Socket s = new Socket("192.0.1.205",8010);
+            //构建IO
+            InputStream is = s.getInputStream();
+            //读取服务器返回的消息
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            while (true){
+                Thread.sleep(10);
+                String mess = br.readLine();
+                System.out.println("服务器："+mess);
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public void run() {
-        super.run();
-
-
     }
 }
