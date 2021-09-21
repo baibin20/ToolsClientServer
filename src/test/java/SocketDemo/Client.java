@@ -83,7 +83,7 @@ class Client_send implements Runnable{
 //            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             Scanner scanner = new Scanner(System.in);
             while (true){
-                System.out.printf("客户端-请输入需要发送的数据:");
+                System.out.printf("客户端-请输入需要发 送的数据:");
                 String string = scanner.nextLine();
                 oos.writeObject(string);
                 oos.flush();
