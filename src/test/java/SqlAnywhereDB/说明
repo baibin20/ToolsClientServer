@@ -1,0 +1,3 @@
+需要jar包：jconn4 和 sajdbc4
+sajdbc4 包在 SQL anywhere安装目录Java下有
+jconn4 自行下载
