@@ -1,6 +1,4 @@
-package SocketDemo;
-
-import jdk.nashorn.internal.ir.debug.JSONWriter;
+package ElectronicScaleSmuratecASK;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +12,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
         try {
             System.out.println("服务端启动。。。。。。");
-            ServerSocket serverSocket = new ServerSocket(8888);
+            ServerSocket serverSocket = new ServerSocket(9999);
             while (true){
                 Socket socket = serverSocket.accept();
                 new Thread(new Server_listen(socket)).start();

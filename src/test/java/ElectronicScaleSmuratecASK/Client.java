@@ -1,13 +1,13 @@
-package SocketDemo;
+package ElectronicScaleSmuratecASK;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client {
     private static Socket socket;
     public  static Boolean connection_state = false;
     private static ObjectOutputStream oos;
+    private static ObjectInputStream ois;
 
     public static void main(String[] args) throws IOException {
         while (!connection_state){
@@ -18,15 +18,16 @@ public class Client {
                 e.printStackTrace();
             }
         }
-
     }
     private static void connect() throws IOException {
         try{
-            socket = new Socket("127.0.0.1",8888);
+            socket = new Socket("192.0.1.205",8080);
             connection_state = true;
+            InputStream is = socket.getInputStream();
             oos = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            new Thread(new Client_listen(socket,ois)).start();
+//            ois = new ObjectInputStream(socket.getInputStream());
+//            new Thread(new Client_listen(socket,ois)).start();
+            new Thread(new Client_listen(socket,is)).start();
             new Thread(new Client_send(socket,oos)).start();
             new Thread(new Cliean_heard(socket,oos)).start();
         }catch (Exception e){
@@ -37,7 +38,6 @@ public class Client {
 
     public static void reconnect() throws IOException {
         while (!connection_state){
-//            System.out.println("正在尝试重新连接");
             connect();
             try{
                 Thread.sleep(3000);
@@ -51,17 +51,22 @@ public class Client {
 class Client_listen implements Runnable{
 
     private Socket socket;
-    private ObjectInputStream ois;
+    private InputStream ois;
+    getConnSybase getConnSybase = new getConnSybase();
 
-    Client_listen(Socket socket,ObjectInputStream ois){
+    Client_listen(Socket socket,InputStream ois){
         this.socket = socket;
         this.ois = ois;
     }
     @Override
     public void run() {
         try{
+            //读取服务器返回的消息
+            BufferedReader br = new BufferedReader(new InputStreamReader(ois));
             while (true){
-                System.out.print(ois.readObject() + "\n");
+                Thread.sleep(1000);
+                getConnSybase.getConnSybase(br.readLine());
+//                System.out.printf("重量："+br.readLine()+"\n");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -81,11 +86,11 @@ class Client_send implements Runnable{
     public void run() {
         try{
 //            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             while (true){
-                System.out.printf("客户端-请输入需要发 送的数据:");
-                String string = scanner.nextLine();
-                oos.writeObject(string);
+//                System.out.printf("客户端-请输入需要发送的数据:");
+//                String string = scanner.nextLine();
+                oos.writeObject("S");
                 oos.flush();
             }
         }catch (Exception e){
@@ -108,7 +113,7 @@ class Cliean_heard implements Runnable{
             System.out.printf("心跳包线程启动");
             while (true){
                 Thread.sleep(5000);
-                oos.writeObject(123);
+                oos.writeObject("S");
                 oos.flush();
             }
         }catch (Exception e ){
