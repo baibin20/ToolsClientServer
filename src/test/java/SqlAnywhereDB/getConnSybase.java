@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 
+
 public class getConnSybase {
 
     /**
@@ -18,14 +19,14 @@ public class getConnSybase {
     public static Connection getConnSybase() {
         try {
             Connection conn;
-            InputStream path =Thread.currentThread().getContextClassLoader().getResourceAsStream("analysis.properties");
-            VerboseDefaultConfig config = new VerboseDefaultConfig();
-            config.clear();
-            config.load(path);
-            String url = config.getProperty("jdbc.url").toString();
-            String username = config.getProperty("jdbc.username").toString();
-            String password = config.getProperty("jdbc.password").toString();
-            String drier = config.getProperty("jdbc.driver").toString();
+//            InputStream path =Thread.currentThread().getContextClassLoader().getResourceAsStream("analysis.properties");
+//            VerboseDefaultConfig config = new VerboseDefaultConfig();
+//            config.clear();
+//            config.load(path);
+            String url = "jdbc:sybase:Tds:192.0.1.136:2638/WMS_BBB";
+            String username = "R200";
+            String password = "R200";
+            String drier = "com.sybase.jdbc4.jdbc.SybDriver";
             Class.forName(drier).newInstance();
             conn = DriverManager.getConnection(url,username,password);
 
@@ -61,17 +62,7 @@ public class getConnSybase {
             }
             stmt.close();
             return null;
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        } catch (InstantiationException instantiationException) {
-            instantiationException.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.print(e.getMessage());
         }
         return null;
