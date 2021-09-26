@@ -134,7 +134,7 @@ public class findInstallJpbpPalletBindDao {
             Class.forName(drier).newInstance();
             conn = DriverManager.getConnection(url,username,password);
             Statement stmt = conn.createStatement();
-            String sql = "SELECT CODE_QR from JOB_QRPRINTING where DATE_CRE > '" + startData + "' AND DATE_CRE < '"+endData+"' AND TIME_CRE > '"+endData+"' AND TIME_CRE < '"+endTime+"' AND MEMO2 = '1' ";
+            String sql = "SELECT CODE_QR from JOB_QRPRINTING where DATE_CRE >= '" + startData + "' AND DATE_CRE <= '"+endData+"' AND TIME_CRE >= '"+startTime+"' AND TIME_CRE <= '"+endTime+"' AND MEMO2 = '1' ";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 list.add(rs.getString(1));
@@ -162,7 +162,7 @@ public class findInstallJpbpPalletBindDao {
             Class.forName(drier).newInstance();
             conn = DriverManager.getConnection(url,username,password);
             Statement stmt = conn.createStatement();
-            String sql = "SELECT CODE_CATEGRY,CODE_STORAGE FROM MST_ITEM where CODE_ITEM = '"+codeItem+"'";
+            String sql = "SELECT RIGHT(CODE_CATEGRY,1),CODE_STORAGE FROM MST_ITEM where CODE_ITEM = '"+codeItem+"'";
 
             rs = stmt.executeQuery(sql);
             while (rs.next()) {

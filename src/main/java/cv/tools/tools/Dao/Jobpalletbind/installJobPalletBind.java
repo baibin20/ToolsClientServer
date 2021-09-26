@@ -7,12 +7,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class installJobPalletBind {
+    private String memo3;
+    private String memo4;
+    private int qty;
+    private String codeItem;
 
     public void install(List insJobPalletBindList){
         try {
             ResultSet rs = null;
             List list = new ArrayList();
-            PreparedStatement pstm = null;
             Connection conn;
             String url = "jdbc:sybase:Tds:192.0.1.202:2638/WMS_ASK";
             String username = "R200";
@@ -21,139 +24,73 @@ public class installJobPalletBind {
             Class.forName(drier).newInstance();
             conn = DriverManager.getConnection(url,username,password);
             Statement stmt = conn.createStatement();
+            conn.setAutoCommit(false);
+
+            PreparedStatement pstm = conn.prepareStatement("insert into JOB_PALLETBIND values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt1 = conn
+                    .prepareStatement("BEGIN\n" + "UPDATE SCH_STRPLN SET MEMO3 = MEMO3 - (SELECT CONVERT(DECIMAL(12,0),FLOOR(CONVERT(FLOAT,?) * POWER(10, ?)))) WHERE NUM_ORDER = ? AND NUM_DETAIL = ?\n" + "END");
 
             for (int i = 0; i < insJobPalletBindList.size(); i++) {
                 Map mapList = (Map) insJobPalletBindList.get(i);
                 Set<Map.Entry<Integer,String>> entries=mapList.entrySet();
-                pstm = conn.prepareStatement("insert into student values(?,?,?,?)");
                 for (Map.Entry entry:entries){
-                    pstm.setString(1, "entry.getValue()");
-                    System.out.println(entry.getValue());
+                    if (entry.getKey().toString().equals("NUM_SEQ")){
+                        pstm.setString(1, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("CODE_PALLET")){
+                        pstm.setString(2, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("KIND")){
+                        pstm.setString(3, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("PALLET_TYPE")){
+                        pstm.setString(4, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("STS_PALLET")){
+                        pstm.setString(5, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("NUM_QR")){
+                        pstm.setString(6, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("CODE_ITEM")){
+                        pstm.setString(7, entry.getValue().toString());
+                        codeItem = entry.getValue().toString();
+                    }else if (entry.getKey().toString().equals("LOT")){
+                        pstm.setString(8, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("QTY")){
+                        pstm.setInt(9, Integer.parseInt(entry.getValue().toString()));
+                        String sql = "SELECT WEIGHT_DECIMAL_DIGITS FROM MST_ITEM where WHERE CODE_ITEM = '"+codeItem+"'; ";
+                        qty = Integer.parseInt(entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("MEMO1")){
+                        pstm.setString(10, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("MEMO2")){
+                        pstm.setString(11, entry.getValue().toString());
+                    }else if (entry.getKey().toString().toString().equals("MEMO3")){
+                        pstm.setString(12, entry.getValue().toString());
+                        memo3 = entry.getValue().toString();
+                    }else if (entry.getKey().toString().equals("MEMO4")){
+                        pstm.setString(13, entry.getValue().toString());
+                        memo4 = entry.getValue().toString();
+                    }else if (entry.getKey().toString().equals("MEMO5")){
+                        pstm.setString(14, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("DATE_CRE")){
+                        pstm.setString(15, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("TIME_CRE")){
+                        pstm.setString(16, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("DATE_UPD")){
+                        pstm.setString(17, entry.getValue().toString());
+                    }else if (entry.getKey().toString().equals("TIME_UPD")){
+                        pstm.setString(18, entry.getValue().toString());
+                    }
                 }
+                String sql = "SELECT WEIGHT_DECIMAL_DIGITS FROM MST_ITEM where WHERE CODE_ITEM = '"+codeItem+"'; ";
+                // 更新未组盘的数据
+                pstmt1.setString(1, String.valueOf(qty));
+                pstmt1.setString(2, stmt.executeQuery(sql).getString(1));
+                pstmt1.setString(3, memo3);
+                pstmt1.setString(4, memo4);
+                pstmt1.addBatch();
+                pstm.addBatch();
             }
-
-
-            pstm = conn.prepareStatement("insert into student values(?,?,?,?)");
-            conn.setAutoCommit(false);//1,首先把Auto commit设置为false,不让它自动提交
-            // 2) 设置sql语句1
-            pstm.setInt(1, 33);
-            pstm.setString(2,"wangqin");
-            pstm.setString(3, "c++");
-            pstm.setDouble(4, 78.5);
-            // 3) 将一组参数添加到此 PreparedStatement 对象的批处理命令中。
-            pstm.addBatch();
-            // 2) 设置sql语句2
-            pstm.setInt(1, 34);
-            pstm.setString(2,"wuytun");
-            pstm.setString(3, "c");
-            pstm.setDouble(4, 77);
-            // 3) 将一组参数添加到此 PreparedStatement 对象的批处理命令中。
-            pstm.addBatch();
-            // 2) 设置sql语句3
-            pstm.setInt(1, 31);
-            pstm.setString(2,"tetet");
-            pstm.setString(3, "c++");
-            pstm.setDouble(4, 90);
-            // 3) 将一组参数添加到此 PreparedStatement 对象的批处理命令中。
-            pstm.addBatch();
-            // 2) 设置sql语句4
-            pstm.setInt(1, 32);
-            pstm.setString(2,"liug");
-            pstm.setString(3, "c");
-            pstm.setDouble(4, 50);
-            // 3) 将一组参数添加到此 PreparedStatement 对象的批处理命令中。
-            pstm.addBatch();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // 4) 将一批参数提交给数据库来执行，如果全部命令执行成功，则返回更新计数组成的数组。
             pstm.executeBatch();
-            System.out.println("插入成功！");
-            // 若成功执行完所有的插入操作，则正常结束
-            con.commit();//2,进行手动提交（commit）
-            System.out.println("提交成功!");
-            con.setAutoCommit(true);//3,提交完成后回复现场将Auto commit,还原为true,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                list.add(rs.getString(1));
-                list.add(rs.getString(2));
-                list.add(rs.getString(3));
-            }
+            conn.commit();
             stmt.close();
+            pstm.close();
+            pstmt1.close();
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }

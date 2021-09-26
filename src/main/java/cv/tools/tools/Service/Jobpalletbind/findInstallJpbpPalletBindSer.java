@@ -21,6 +21,7 @@ public class findInstallJpbpPalletBindSer {
     private String endDate;
     private String endTime;
     private String palletNum;
+    private String codeStorage;
 
 
     findInstallJpbpPalletBindDao findInstallJpbpPalletBindDao = new findInstallJpbpPalletBindDao();
@@ -49,13 +50,7 @@ public class findInstallJpbpPalletBindSer {
         this.startTime =  startTime.split(",")[0].toString().split(" ")[1].toString().replace(":","").toString();
         this.endDate =  startTime.split(",")[1].toString().split(" ")[1].toString().replace("]","").toString().replace("-","");
         this.endTime =  startTime.split(",")[1].toString().split(" ")[2].toString().replace(":","").toString().replace("]","");
-        for (int i = 0; i < this.findQrCode().size(); i++) {
-            Map mapList = (Map) this.findQrCode().get(i);
-            Set<Map.Entry<Integer,String>> entries=mapList.entrySet();
-            for (Map.Entry entry:entries){
-                System.out.println(entry.getValue());
-            }
-        }
+        this.findQrCode();
         return null;
     }
 
@@ -66,10 +61,19 @@ public class findInstallJpbpPalletBindSer {
         List insJobPalletBindList = new ArrayList();
         for (int i = 0; i < qrList.size(); i++) {
             Map insJobPalletBind = new HashMap();
+            // 托盘种类(1:常温和阴凉,2:Miniload,3:缓存库)
+            if (findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2]).get(0).toString().equals("1")){
+                this.palletNum = "X";
+            }else if(findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2]).get(0).toString().equals("2")){
+                this.palletNum = "Y";
+            }else if(findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2]).get(0).toString().equals("3")){
+                this.palletNum = "Z";
+            }
+
             insJobPalletBind.put("NUM_SEQ",palletNum + String.format("%09d", i)); // 自动编号
             insJobPalletBind.put("CODE_PALLET",palletNum + String.format("%09d", i)); // 托盘号
-            insJobPalletBind.put("KIND",findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2].toString()).get(1).toString()); // 绑定区分(1:空托盘,2:原辅料,3:成品,,4:留样,9:其它)
-            insJobPalletBind.put("PALLET_TYPE",findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2].toString()).get(0).toString()); // 托盘种类(1:常温和阴凉,2:Miniload,3:缓存库)
+            insJobPalletBind.put("KIND",findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2]).get(0).toString()); // 绑定区分(1:空托盘,2:原辅料,3:成品,,4:留样,9:其它)
+            insJobPalletBind.put("PALLET_TYPE",findInstallJpbpPalletBindDao.findQrCode(qrList.get(i).toString().split("\\|")[2]).get(1).toString()); // 托盘种类(1:常温和阴凉,2:Miniload,3:缓存库)
             insJobPalletBind.put("STS_PALLET",0); // 状态(0:未入库,1:已入库)
             insJobPalletBind.put("NUM_QR",qrList.get(i).toString().split("\\|")[0].toString()); // QR番号(空托盘入库无, 成品入库无)
             insJobPalletBind.put("CODE_ITEM",qrList.get(i).toString().split("\\|")[2].toString()); // 品号
