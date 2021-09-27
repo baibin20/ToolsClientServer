@@ -95,4 +95,15 @@ public class installJobPalletBind {
             System.out.print(e.getMessage());
         }
     }
+
+    /**
+     * 转换小数点
+     */
+    public int returnInt(){
+        return 1;
+    }
+
+
+
+
 }
