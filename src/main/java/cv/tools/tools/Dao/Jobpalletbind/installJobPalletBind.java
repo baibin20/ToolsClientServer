@@ -93,6 +93,7 @@ public class installJobPalletBind {
      */
     public int returnInt(Float qty,String codeItem){
         String select_qty = "";
+        float x = 0;
         try {
             ResultSet rs = null;
             List list = new ArrayList();
@@ -111,9 +112,22 @@ public class installJobPalletBind {
                 select_qty = rs.getString(1);
             }
             stmt.close();
-            BigDecimal b = new BigDecimal(qty);
-            int f1 = (int) b.setScale(Integer.parseInt(select_qty),BigDecimal.ROUND_HALF_UP).floatValue();
-            return f1;
+
+            if(select_qty.equals("0")){
+                 x = (float) qty;
+            }else if(select_qty.equals("1")){
+                 x = (float) qty * 10;
+            }else if(select_qty.equals("2")){
+                 x = (float) qty * 100;
+            }else if(select_qty.equals("3")){
+                 x = (float) qty * 100;
+            }else if(select_qty.equals("4")){
+                 x = (float) qty * 1000;
+            }else if(select_qty.equals("5")){
+                x = (float) qty * 10000;
+            }
+
+            return (int) x;
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }

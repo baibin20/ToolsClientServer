@@ -40,7 +40,7 @@ public class findInstallJpbpPalletBindSer {
     }
 
     // 提交的数据
-    public List submit(Map data){
+    public List submit(Map data) throws SQLException, ClassNotFoundException {
         String code_categry = data.get("code_categry").toString();
         String code_pallet = data.get("code_pallet").toString();
         String code_storage = data.get("code_storage").toString();
@@ -53,17 +53,24 @@ public class findInstallJpbpPalletBindSer {
         this.endDate =  startTime.split(",")[1].toString().split(" ")[1].toString().replace("]","").toString().replace("-","");
         this.endTime =  startTime.split(",")[1].toString().split(" ")[2].toString().replace(":","").toString().replace("]","");
         try {
-            this.findQrCode();
+            if(!this.findQrCode().equals(null)){
+                return null;
+            }
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
-        return null;
+        return this.findQrCode();
     }
 
     // 根据QR发行的开始时间和结束时间去找QR码
     public List findQrCode() throws SQLException, ClassNotFoundException {
 
         List qrList = findInstallJpbpPalletBindDao.findQrCode(startDate,startTime,endDate,endTime);
+        // 没有查到的时候返回空
+        if(qrList.size() == 0 || qrList.equals(null) || qrList.equals("")){
+            return null;
+        }
+
         List insJobPalletBindList = new ArrayList();
         for (int i = 0; i < qrList.size(); i++) {
             Map insJobPalletBind = new HashMap();
