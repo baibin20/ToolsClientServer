@@ -46,7 +46,7 @@ public class FindInstallJpbpPalletBind {
         if (findInstallJpbpPalletBindSer.submit(data).size() > 0 ){
             return JSON.toJSONString(new Result(false,StatusCode.OK,"生成成功"));
         }else {
-            return JSON.toJSONString(new Result(false,StatusCode.ERROR,"未生成数据或QR码表中没有QR码"));
+            return JSON.toJSONString(new Result(false,StatusCode.ERROR,"QR发行表中没有发行"));
         }
     }
 }
