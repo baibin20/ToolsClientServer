@@ -53,13 +53,11 @@ public class findInstallJpbpPalletBindSer {
         this.endDate =  startTime.split(",")[1].toString().split(" ")[1].toString().replace("]","").toString().replace("-","");
         this.endTime =  startTime.split(",")[1].toString().split(" ")[2].toString().replace(":","").toString().replace("]","");
         try {
-            if(!this.findQrCode().equals(null)){
-                return null;
-            }
+            return this.findQrCode();
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
-        return this.findQrCode();
+        return null;
     }
 
     // 根据QR发行的开始时间和结束时间去找QR码
@@ -68,7 +66,7 @@ public class findInstallJpbpPalletBindSer {
         List qrList = findInstallJpbpPalletBindDao.findQrCode(startDate,startTime,endDate,endTime);
         // 没有查到的时候返回空
         if(qrList.size() == 0 || qrList.equals(null) || qrList.equals("")){
-            return null;
+            return qrList;
         }
 
         List insJobPalletBindList = new ArrayList();

@@ -43,7 +43,7 @@ public class FindInstallJpbpPalletBind {
     // 提交的数据
     @PostMapping("/submit")
     public String submit(@RequestBody HashMap data) throws SQLException, ClassNotFoundException {
-        if (!findInstallJpbpPalletBindSer.submit(data).equals(null) ){
+        if (findInstallJpbpPalletBindSer.submit(data).size() > 0 ){
             return JSON.toJSONString(new Result(false,StatusCode.OK,"生成成功"));
         }else {
             return JSON.toJSONString(new Result(false,StatusCode.ERROR,"未生成数据或QR码表中没有QR码"));
