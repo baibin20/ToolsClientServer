@@ -6,6 +6,7 @@ import org.dom4j.util.AttributeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,6 +23,7 @@ public class findInstallJpbpPalletBindSer {
     private String endTime;
     private String palletNum;
     private String codeStorage;
+    private int qty;
 
 
     findInstallJpbpPalletBindDao findInstallJpbpPalletBindDao = new findInstallJpbpPalletBindDao();
@@ -50,12 +52,16 @@ public class findInstallJpbpPalletBindSer {
         this.startTime =  startTime.split(",")[0].toString().split(" ")[1].toString().replace(":","").toString();
         this.endDate =  startTime.split(",")[1].toString().split(" ")[1].toString().replace("]","").toString().replace("-","");
         this.endTime =  startTime.split(",")[1].toString().split(" ")[2].toString().replace(":","").toString().replace("]","");
-        this.findQrCode();
+        try {
+            this.findQrCode();
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
         return null;
     }
 
     // 根据QR发行的开始时间和结束时间去找QR码
-    public List findQrCode(){
+    public List findQrCode() throws SQLException, ClassNotFoundException {
 
         List qrList = findInstallJpbpPalletBindDao.findQrCode(startDate,startTime,endDate,endTime);
         List insJobPalletBindList = new ArrayList();
@@ -78,7 +84,7 @@ public class findInstallJpbpPalletBindSer {
             insJobPalletBind.put("NUM_QR",qrList.get(i).toString().split("\\|")[0].toString()); // QR番号(空托盘入库无, 成品入库无)
             insJobPalletBind.put("CODE_ITEM",qrList.get(i).toString().split("\\|")[2].toString()); // 品号
             insJobPalletBind.put("LOT",qrList.get(i).toString().split("\\|")[3].toString()); // 批号
-            insJobPalletBind.put("QTY",qrList.get(i).toString().split("\\|")[5].toString()); // 数量
+            insJobPalletBind.put("QTY",(int) this.qty(Float.parseFloat(qrList.get(i).toString().split("\\|")[5]),qrList.get(i).toString().split("\\|")[2])); // 数量
             insJobPalletBind.put("MEMO1",'-'); // 配料室站台号
             insJobPalletBind.put("MEMO2",findInstallJpbpPalletBindDao.findSchStrpln(qrList.get(i).toString().split("\\|")[0].toString()).get(2)); // 指示日期
             insJobPalletBind.put("MEMO3",findInstallJpbpPalletBindDao.findSchStrpln(qrList.get(i).toString().split("\\|")[0].toString()).get(0)); // 指示单号
@@ -92,5 +98,10 @@ public class findInstallJpbpPalletBindSer {
         }
         installJobPalletBind.install(insJobPalletBindList);
         return insJobPalletBindList;
+    }
+
+    // 小数转换
+    public float qty(float qty,String codeItem){
+        return installJobPalletBind.returnInt(qty,codeItem);
     }
 }

@@ -16,7 +16,7 @@ public class findInstallJpbpPalletBindDao {
         try {
             List list = new ArrayList();
             Connection conn;
-            String url = "jdbc:sybase:Tds:192.0.1.202:2638/WMS_ASK";
+            String url = "jdbc:sybase:Tds:192.0.1.136:2638/WMS_BBB";
             String username = "R200";
             String password = "R200";
             String drier = "com.sybase.jdbc4.jdbc.SybDriver";
@@ -70,7 +70,7 @@ public class findInstallJpbpPalletBindDao {
         try {
             List list = new ArrayList();
             Connection conn;
-            String url = "jdbc:sybase:Tds:192.0.1.202:2638/WMS_ASK";
+            String url = "jdbc:sybase:Tds:192.0.1.136:2638/WMS_BBB";
             String username = "R200";
             String password = "R200";
             String drier = "com.sybase.jdbc4.jdbc.SybDriver";
@@ -127,7 +127,7 @@ public class findInstallJpbpPalletBindDao {
             ResultSet rs = null;
             List list = new ArrayList();
             Connection conn;
-            String url = "jdbc:sybase:Tds:192.0.1.202:2638/WMS_ASK";
+            String url = "jdbc:sybase:Tds:192.0.1.136:2638/WMS_BBB";
             String username = "R200";
             String password = "R200";
             String drier = "com.sybase.jdbc4.jdbc.SybDriver";
@@ -155,7 +155,7 @@ public class findInstallJpbpPalletBindDao {
             ResultSet rs = null;
             List list = new ArrayList();
             Connection conn;
-            String url = "jdbc:sybase:Tds:192.0.1.202:2638/WMS_ASK";
+            String url = "jdbc:sybase:Tds:192.0.1.136:2638/WMS_BBB";
             String username = "R200";
             String password = "R200";
             String drier = "com.sybase.jdbc4.jdbc.SybDriver";
@@ -185,7 +185,7 @@ public class findInstallJpbpPalletBindDao {
             ResultSet rs = null;
             List list = new ArrayList();
             Connection conn;
-            String url = "jdbc:sybase:Tds:192.0.1.202:2638/WMS_ASK";
+            String url = "jdbc:sybase:Tds:192.0.1.136:2638/WMS_BBB";
             String username = "R200";
             String password = "R200";
             String drier = "com.sybase.jdbc4.jdbc.SybDriver";
