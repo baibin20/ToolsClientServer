@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 public class SocketMain extends Thread {
     public static void main(String[] args) throws Exception {
         try {
-            Socket s = new Socket("192.0.1.205",8010);
+            Socket s = new Socket("192.0.1.136",8001);
             //构建IO
             InputStream is = s.getInputStream();
             //读取服务器返回的消息

@@ -16,7 +16,6 @@ import java.util.*;
 @Service
 public class findInstallJpbpPalletBindSer {
 
-
     private String startDate;
     private String startTime;
     private String endDate;
@@ -24,7 +23,6 @@ public class findInstallJpbpPalletBindSer {
     private String palletNum;
     private String codeStorage;
     private int qty;
-
 
     findInstallJpbpPalletBindDao findInstallJpbpPalletBindDao = new findInstallJpbpPalletBindDao();
     installJobPalletBind installJobPalletBind = new installJobPalletBind();
