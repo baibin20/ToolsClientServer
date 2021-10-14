@@ -1,12 +1,15 @@
 package cv.tools.tools.Service.SocketSer;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 class ServerSer {
-
     /**
      * DO的头报文
      */
@@ -108,13 +111,15 @@ class ServerSer {
     }
     private static class Conversion{
         public void conversion(String resMessage){
-            System.out.println(resMessage);
-
-//            resMessage.length() - 42;
-//            System.out.println(resMessage.length() - 42);
-//            System.out.println(resMessage.substring(resMessage.length() - resMessage.length() - 42));
-//            System.out.println(resMessage.substring(resMessage.length() - resMessage.length() - 42));
-
+            List list = new ArrayList();
+            StringBuffer result = new StringBuffer();
+            String count = "";
+            String bb = resMessage.trim();
+            String cc = bb.substring(42,bb.length());
+            for (int i = 0; i < cc.length(); i++) {
+                count=Integer.toBinaryString(cc.charAt(i)).substring(2,6);
+                list.add(count);
+            }
         }
     }
 }
