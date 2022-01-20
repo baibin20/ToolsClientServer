@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-class ServerSer {
+class ServerSer4 {
     public static String serMessage;
     public static int flag = 0;
     /**
@@ -46,7 +46,7 @@ class ServerSer {
         int port = 8001;
         //定义一个ServerSocket监听在端口8899上
         //ServerSocket server = new ServerSocket(port);
-        ServerSocket server = new ServerSocket(8001);
+        ServerSocket server = new ServerSocket(8004);
 
         while (true) {
             Socket socket = server.accept();
