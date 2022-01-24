@@ -1,4 +1,4 @@
-package cv.tools.tools.Service.SocketSer;
+package Mi10Tools.Cv;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
@@ -135,7 +135,7 @@ class ServerSer {
                             bw.write(send + write1);
                         }
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                     bw.flush();
                 }
             }catch (Exception exception){
